@@ -1,0 +1,165 @@
+---
+title       : Single-Index Model For Selected Stocks
+subtitle    : Developing Data Products Project
+author      : Oscar Portillo
+job         : Coursera through John Hopkins University
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+# The objectives of this shiny application are:
+
+**1) Load stock price market data from a .csv file and plot share price of selected companies against the Standard and Poor (S&P500) index and other industry indices to observe trends.** 
+
+**2) Plot excess daily returns of selected stocks versus their industry indices or vs. S&P500 index. Perform a linear regression analysis on the excess returns and present the Security Market Line SML (also known as single-factor index/market model), serving S&P500 and other industry indices as the market proxy. Report key-coefficients of the SML: Alpha and Beta.**
+
+**3) Provide a functionality to summarize common stock price of selected companies as well as statistical summary of regression models.**
+
+<img src="OscarApp.PNG" height="300px" width="600px" />
+
+--- .class #id 
+
+# SECURITY MARKET LINE (SML)
+SML is a line of best fit through the returns on an individual security, plotted on vertical axis, relative to the returns for the market (or index proxy), plotted along the horizontal axis. In the example below, SML of JP Morgan vs S&P500 is constructed using the R-function "lm()":
+```{r,echo=FALSE}
+SP500<-c(0.003563883  ,
+         0.000799709  ,
+         -0.006044794	,
+         -0.000792326	,
+         0.007402197	,
+         0.001213469	,
+         0.004808969	,
+         -0.000559481	,
+         -0.008095522	,
+         -0.005858684	,
+         0.007750285	,
+         -0.016250935	,
+         0.00849364	,
+         -0.002629031	,
+         -0.002868116	,
+         -0.013330751	,
+         -7.70535E-05	,
+         0.011083328	,
+         -0.001647312	,
+         -0.015208259	,
+         0.017379438	,
+         -0.02074358	,
+         -0.011533227	,
+         -0.016550114	,
+         0.001496694	,
+         -0.008182527	,
+         6.27754E-05	,
+         0.012801916	,
+         0.009060465	,
+         0.019492285	,
+         -0.007381499	,
+         0.012221206	,
+         0.006971252	,
+         -0.001583785	,
+         0.011856859	,
+         -0.001467547	,
+         0.006147945	,
+         0.01164919	,
+         -0.000201118	,
+         -0.002911992	,
+         0.00561832	,
+         0.003693314	,
+         0.000267354	,
+         0.00303801	,
+         0.000614481	,
+         -0.000783282	,
+         0.000447675	,
+         0.000158083	,
+         0.000653167	,
+         0.005051741	,
+         -0.001583313	,
+         0.00188489	,
+         0.00442883	     
+)
+JPM<-c(0.002626918  ,
+       0.009036349	,
+       0.004435881	,
+       -0.001581442	,
+       0.000751976	,
+       0.005252031	,
+       0.016664616	,
+       -0.003506849	,
+       -0.003354979	,
+       0.000410338	,
+       0.011240421	,
+       -0.024096471	,
+       0.006734101	,
+       -0.003880078	,
+       -0.001573987	,
+       -0.007884317	,
+       -0.015641837	,
+       0.024730861	,
+       -0.002072242	,
+       -0.015203495	,
+       0.018983103	,
+       -0.021936496	,
+       -0.009560865	,
+       -0.006233935	,
+       -0.003005163	,
+       -0.042503299	,
+       -0.008185919	,
+       0.020251868	,
+       0.007569054	,
+       0.022873839	,
+       -0.008368054	,
+       0.010535737	,
+       0.01162983	,
+       -0.001784609	,
+       0.016800482	,
+       -0.00578402	,
+       0.001604433	,
+       0.018271066	,
+       0.006531565	,
+       -0.010430418	,
+       0.014855568	,
+       0.001226067	,
+       0.003837455	,
+       0.007401133	,
+       -0.009124659	,
+       -0.013280823	,
+       -0.005531333	,
+       0.000747959	,
+       0.001576733	,
+       0.002402075	,
+       0.00107426	,
+       -0.008002984	,
+       0.00457516	
+)
+
+```
+```{r,echo=TRUE, fig.align ='center', fig.width=6, fig.height=4.5, message=FALSE}
+plot(SP500, JPM, main="Security Market Line: JP Morgan vs. S&P500", 
+     col.main="blue", col.lab="red", pch=16) 
+abline(lm(JPM~SP500), col="brown") + grid()
+```
+
+---
+
+# SELECTED STOCKS
+
+The chosen stocks are: 1) Goldman Sachs Group Inc. (Ticker: GS), 2) Lockheed Martin Corp. (Ticker: LMT), and 3) Chevron Corp. (Ticker: CVR). 
+
+The corresponding industry indexes are: 1) Investment Banking & Brokerage (Bloomberg Ticker: S5INBK), 2) Aerospace & Defence (Bloomberg Ticker: S5AERO), and 3) Oil, Gas & Consumable Fuels (Bloomberg Ticker: S5OILG). One of the ways to evaluate stock performance is to compare how the three selected stocks are doing relative to other companies in the same sector, i.e, the industry/group index.The proxy for stock market comparison is the S&P500.
+
+The SML is determined by using a statistical technique called regression analysis ("lm()" function in R).The slope of the line is the security's beta coefficient. Beta measures the risk of an individual stock relative to the market portfolio (for instance S&P500).Securities with betas greater than 1 are generally considered to be more volatile (or risky) than average. Similarly, securities with betas less than 1 are less volatile (risky). Beta is reported in this application.
+
+This application consists of three tabs: stock price of the three selected companies can be plotted vs industry index or S&P500 in the tab "Plot Stock and Index". SML based on these stocks is estimated in tab "Security Market Line". Finally, a summary of the stock price or linear regression model is provided in tab "Data Summary".
+
+---
+
+# STOCK ANALYSIS (SINGLE-INDEX MODEL) USER INTERFACE(UI)
+
+The "Security Market Line" Tab UI is shown below.
+
+![Shiny Application - Functionality](SML.PNG)
+
+

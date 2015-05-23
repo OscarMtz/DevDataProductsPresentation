@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Single-Index Model For Selected Stocks</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Single-Index Model For Selected Stocks">
+  <meta name="author" content="Oscar Portillo">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Single-Index Model For Selected Stocks</h1>
+    <h2>Developing Data Products Project</h2>
+    <p>Oscar Portillo<br/>Coursera through John Hopkins University</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h1>The objectives of this shiny application are:</h1>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>1) Load stock price market data from a .csv file and plot share price of selected companies against the Standard and Poor (S&amp;P500) index and other industry indices to observe trends.</strong> </p>
+
+<p><strong>2) Plot excess daily returns of selected stocks versus their industry indices or vs. S&amp;P500 index. Perform a linear regression analysis on the excess returns and present the Security Market Line SML (also known as single-factor index/market model), serving S&amp;P500 and other industry indices as the market proxy. Report key-coefficients of the SML: Alpha and Beta.</strong></p>
+
+<p><strong>3) Provide a functionality to summarize common stock price of selected companies as well as statistical summary of regression models.</strong></p>
+
+<p><img src="OscarApp.PNG" height="300px" width="600px" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h1>SECURITY MARKET LINE (SML)</h1>
+  </hgroup>
+  <article data-timings="">
+    <p>SML is a line of best fit through the returns on an individual security, plotted on vertical axis, relative to the returns for the market (or index proxy), plotted along the horizontal axis. In the example below, SML of JP Morgan vs S&amp;P500 is constructed using the R-function &quot;lm()&quot;:</p>
+
+<pre><code class="r">plot(SP500, JPM, main=&quot;Security Market Line: JP Morgan vs. S&amp;P500&quot;, 
+     col.main=&quot;blue&quot;, col.lab=&quot;red&quot;, pch=16) 
+abline(lm(JPM~SP500), col=&quot;brown&quot;) + grid()
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" /></p>
+
+<pre><code>## numeric(0)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h1>SELECTED STOCKS</h1>
+  </hgroup>
+  <article data-timings="">
+    <p>The chosen stocks are: 1) Goldman Sachs Group Inc. (Ticker: GS), 2) Lockheed Martin Corp. (Ticker: LMT), and 3) Chevron Corp. (Ticker: CVR). </p>
+
+<p>The corresponding industry indexes are: 1) Investment Banking &amp; Brokerage (Bloomberg Ticker: S5INBK), 2) Aerospace &amp; Defence (Bloomberg Ticker: S5AERO), and 3) Oil, Gas &amp; Consumable Fuels (Bloomberg Ticker: S5OILG). One of the ways to evaluate stock performance is to compare how the three selected stocks are doing relative to other companies in the same sector, i.e, the industry/group index.The proxy for stock market comparison is the S&amp;P500.</p>
+
+<p>The SML is determined by using a statistical technique called regression analysis (&quot;lm()&quot; function in R).The slope of the line is the security&#39;s beta coefficient. Beta measures the risk of an individual stock relative to the market portfolio (for instance S&amp;P500).Securities with betas greater than 1 are generally considered to be more volatile (or risky) than average. Similarly, securities with betas less than 1 are less volatile (risky). Beta is reported in this application.</p>
+
+<p>This application consists of three tabs: stock price of the three selected companies can be plotted vs industry index or S&amp;P500 in the tab &quot;Plot Stock and Index&quot;. SML based on these stocks is estimated in tab &quot;Security Market Line&quot;. Finally, a summary of the stock price or linear regression model is provided in tab &quot;Data Summary&quot;.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h1>STOCK ANALYSIS (SINGLE-INDEX MODEL) USER INTERFACE(UI)</h1>
+  </hgroup>
+  <article data-timings="">
+    <p>The &quot;Security Market Line&quot; Tab UI is shown below.</p>
+
+<p><img src="SML.PNG" alt="Shiny Application - Functionality"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='The objectives of this shiny application are:'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='SECURITY MARKET LINE (SML)'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='SELECTED STOCKS'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='STOCK ANALYSIS (SINGLE-INDEX MODEL) USER INTERFACE(UI)'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
